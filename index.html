@@ -5,92 +5,88 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="robots" content="noindex,nofollow,noarchive">
   <meta name="theme-color" content="#edf7f2">
-  <title>Cannabis & Co. · Portafolio Médico 2026</title>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; frame-src blob:; object-src blob:; connect-src 'none'; form-action 'none'; base-uri 'none'">
+  <title>Visor de documentos PDF · Local</title>
   <style>
-    :root{
-      --bg:#edf7f2; --paper:#ffffff; --ink:#173e34; --muted:#688278;
-      --line:#d9e9e2; --bar:#f8fcfa;
-    }
+    :root{--bg:#edf7f2;--paper:#fff;--ink:#173e34;--muted:#58736a;--line:#d9e9e2;--bar:#f8fcfa}
     *{box-sizing:border-box}
-    html,body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);
-      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-    header{
-      position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;
-      min-height:58px;padding:10px 18px;background:rgba(248,252,250,.96);
-      border-bottom:1px solid var(--line);backdrop-filter:blur(10px)
-    }
+    html,body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    header{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:58px;padding:10px 18px;background:var(--bar);border-bottom:1px solid var(--line)}
     .brand{font-size:14px;font-weight:800;letter-spacing:.035em}
     .meta{font-size:12px;color:var(--muted)}
-    main{padding:24px 12px 48px}
-    .page{
-      max-width:1180px;margin:0 auto 24px;background:var(--paper);
-      box-shadow:0 18px 55px rgba(23,62,52,.11);overflow:hidden
-    }
-    canvas{display:block;width:100%;height:auto}
-    #status{text-align:center;padding:70px 20px;color:var(--muted)}
-    @media(max-width:700px){
-      header{padding:9px 12px;min-height:50px}
-      .meta{display:none}
-      main{padding:10px 4px 28px}
-      .page{margin-bottom:10px}
-    }
-    @media print{body{display:none!important}}
+    main{padding:24px 12px 48px;max-width:1204px;margin:auto}
+    .panel{background:var(--paper);border:1px solid var(--line);padding:24px;border-radius:16px;box-shadow:0 14px 38px rgba(23,62,52,.08)}
+    h1{font-size:23px;margin:0 0 10px;font-weight:650}
+    p{margin:8px 0 16px;line-height:1.5;color:var(--muted);font-size:14px}
+    .controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    button,.action{font:inherit;font-size:14px;font-weight:650;border:1px solid var(--line);border-radius:9px;padding:11px 15px;cursor:pointer;text-decoration:none;background:white;color:var(--ink)}
+    .primary{background:var(--ink);color:#fff;border-color:var(--ink)}
+    :focus-visible{outline:3px solid #4aa489;outline-offset:3px}
+    #status{font-size:13px;color:var(--muted);overflow-wrap:anywhere;margin:14px 0 0}
+    #preview{margin-top:18px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--paper)}
+    iframe{display:block;width:100%;height:min(78vh,1000px);min-height:480px;border:0}
+    [hidden]{display:none!important}
+    @media(max-width:700px){header{padding:9px 12px;min-height:50px}.meta{display:none}main{padding:12px 8px 28px}.panel{padding:16px}iframe{min-height:65vh;height:70vh}}
   </style>
 </head>
 <body>
-<header>
-  <div class="brand">CANNABIS & CO. · PORTAFOLIO MÉDICO</div>
-  <div class="meta">Catálogo 2026 · Visualización profesional</div>
-</header>
-
-<main id="catalog"><div id="status">Cargando catálogo…</div></main>
-
-<script type="module">
-  import * as pdfjsLib from "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs";
-  pdfjsLib.GlobalWorkerOptions.workerSrc=
-    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.mjs";
-
-  const pdfUrl="./Cannabis_Co_Portafolio_Medico_2026_LOGO_ORIGINAL_CLEAN.pdf";
-  const catalog=document.getElementById("catalog");
-  const status=document.getElementById("status");
-
-  async function renderCatalog(){
-    const pdf=await pdfjsLib.getDocument(pdfUrl).promise;
-    status.remove();
-
-    for(let n=1;n<=pdf.numPages;n++){
-      const page=await pdf.getPage(n);
-      const base=page.getViewport({scale:1});
-      const targetWidth=Math.min(1180,Math.max(320,window.innerWidth-24));
-      const dpr=Math.min(window.devicePixelRatio||1,2);
-      const viewport=page.getViewport({scale:(targetWidth/base.width)*dpr});
-
-      const section=document.createElement("section");
-      section.className="page";
-      section.setAttribute("aria-label","Página "+n);
-
-      const canvas=document.createElement("canvas");
-      canvas.width=Math.floor(viewport.width);
-      canvas.height=Math.floor(viewport.height);
-      canvas.style.width=Math.floor(viewport.width/dpr)+"px";
-      canvas.style.height=Math.floor(viewport.height/dpr)+"px";
-
-      section.appendChild(canvas);
-      catalog.appendChild(section);
-
-      await page.render({
-        canvasContext:canvas.getContext("2d",{alpha:false}),
-        viewport
-      }).promise;
+  <header><div class="brand">VISOR DE DOCUMENTOS PDF</div><div class="meta">Visualización local · Sin publicación</div></header>
+  <main>
+    <section class="panel" aria-labelledby="heading">
+      <h1 id="heading">Selecciona un documento PDF</h1>
+      <p>Abre un archivo de tu dispositivo. El visor no lo sube al repositorio ni lo publica en internet. Cada visitante debe seleccionar su propio archivo.</p>
+      <input id="file" type="file" accept="application/pdf,.pdf" hidden>
+      <div class="controls">
+        <button id="choose" type="button" class="primary">Seleccionar PDF</button>
+        <a id="open" class="action" target="_blank" rel="noopener noreferrer" hidden>Abrir en otra pestaña</a>
+        <button id="clear" type="button" hidden>Cerrar documento</button>
+      </div>
+      <p id="status" role="status" aria-live="polite">Ningún documento seleccionado.</p>
+    </section>
+    <section id="preview" aria-label="Vista previa del PDF" hidden>
+      <iframe id="frame" title="Vista previa local del documento"></iframe>
+    </section>
+  </main>
+  <script>
+    const input=document.getElementById("file");
+    const choose=document.getElementById("choose");
+    const openButton=document.getElementById("open");
+    const clearButton=document.getElementById("clear");
+    const status=document.getElementById("status");
+    const preview=document.getElementById("preview");
+    const frame=document.getElementById("frame");
+    let localUrl=null;
+    let generation=0;
+    function closePreview(){
+      generation++;
+      frame.removeAttribute("src");
+      openButton.removeAttribute("href");
+      if(localUrl){URL.revokeObjectURL(localUrl);localUrl=null;}
+      openButton.hidden=true;clearButton.hidden=true;preview.hidden=true;
+      input.value="";
+      status.textContent="Ningún documento seleccionado.";
     }
-  }
-
-  renderCatalog().catch((err)=>{
-    console.error(err);
-    status.textContent="No se pudo cargar el catálogo. Actualiza la página e inténtalo nuevamente.";
-  });
-
-  document.addEventListener("contextmenu",(e)=>e.preventDefault());
-</script>
+    choose.addEventListener("click",()=>input.click());
+    clearButton.addEventListener("click",closePreview);
+    input.addEventListener("change",async()=>{
+      const file=input.files&&input.files[0];
+      if(!file)return;
+      closePreview();
+      const request=generation;
+      try{
+        const magic=new TextDecoder().decode(await file.slice(0,1024).arrayBuffer());
+        if(request!==generation)return;
+        if(!magic.includes("%PDF-")){status.textContent="El archivo seleccionado no parece ser un PDF válido.";return;}
+        localUrl=URL.createObjectURL(new Blob([file],{type:"application/pdf"}));
+        frame.src=localUrl;openButton.href=localUrl;
+        preview.hidden=false;openButton.hidden=false;clearButton.hidden=false;
+        status.textContent=file.name+" · "+(file.size/1048576).toFixed(2)+" MB · Archivo local";
+      }catch(error){
+        if(request!==generation)return;
+        closePreview();status.textContent="No se pudo abrir el archivo. Intenta seleccionar otro PDF.";
+      }
+    });
+    window.addEventListener("pagehide",()=>{if(localUrl)URL.revokeObjectURL(localUrl);});
+  </script>
 </body>
 </html>
